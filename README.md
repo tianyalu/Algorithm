@@ -44,3 +44,7 @@
 
 `other/LogicOperator`
 
+### 4.3 洗牌算法
+
+`other/shuffleAlgorithm`
+
