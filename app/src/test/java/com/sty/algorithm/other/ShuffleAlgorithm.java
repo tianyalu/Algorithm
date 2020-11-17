@@ -34,10 +34,11 @@ public class ShuffleAlgorithm {
             return;
         }
 
-        Random random = new Random(System.currentTimeMillis());
+        //Random random = new Random(System.currentTimeMillis());
+        Random random = new Random(); //也是随机的
         for (int i = arr.length - 1; i >= 0; i--) {
             //int randomIndex = Math.abs(random.nextInt()) % (i + 1); //(-i-1, i+1)
-            int randomIndex = random.nextInt(i + 1) % (i + 1); //[0, i+1)
+            int randomIndex = random.nextInt(i + 1); //[0, i+1)
             int temp = arr[i];
             arr[i] = arr[randomIndex];
             arr[randomIndex] = temp;
