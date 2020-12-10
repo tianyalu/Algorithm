@@ -2,6 +2,8 @@
 
 [TOC]
 
+## 1. [数组相关算法](https://github.com/tianyalu/Algorithm/blob/master/array.md)
+
 ## 一、排序类算法
 
 ### 1.1 快速排序
