@@ -49,3 +49,49 @@ Notice
     }
 ```
 
+### 2. 寻找和为0的子数组
+
+①题目：
+
+```java
+Given an integer array,find a subarray where the sum of numbers is zero.Your code should return the index of the first number and the index of the last number.
+Example:
+Given [-3, 1, 2, -3, 4],return [0, 2] or [1, 3]
+```
+
+②算法思路：
+
+记录每一个位置的`sum`，存入`HashMap`中，如果某一个`sum`已经出现过，那么说明中间的`subarray`的`sum`为0，时间复杂度为`O(n)`，空间复杂度为`O(n)`.
+
+
+| arrayIndex        | -1   | 0    | 1    | 2    | 3    | 4    |
+| ----------------- | ---- | ---- | ---- | ---- | ---- | ---- |
+| array[arrayIndex] | ×    | -3   | 1    | 2    | -3   | 4    |
+| mapSum            | (0   | -3   | -2   | 0]   | -3   | 1    |
+
+| arrayIndex        | -1   | 0    | 1    | 2    | 3    | 4    |
+| ----------------- | ---- | ---- | ---- | ---- | ---- | ---- |
+| array[arrayIndex] | ×    | -2   | 1    | 2    | -3   | 4    |
+| arraySum          | 0    | (-2  | -1   | 1    | -2]  | 2    |
+
+③算法实现：
+
+```java
+    public static List<Integer> subArraySum(Integer[] arr) {
+        List<Integer> ansIndexList = new ArrayList<>();
+        Map<Integer, Integer> map = new HashMap<>(); //<和, arr中的索引>
+        map.put(0, -1);
+        int sum = 0;
+        for (int i = 0; i < arr.length; i++) {
+            sum += arr[i];
+            if(map.containsKey(sum)) {
+                ansIndexList.add(map.get(sum) + 1); // 左开右闭区间：( ]
+                ansIndexList.add(i);
+                return ansIndexList;
+            }
+            map.put(sum, i);
+        }
+        return ansIndexList;
+    }
+```
+
