@@ -138,3 +138,43 @@ Example:
     }
 ```
 
+### 4. 判断一个数字是否为回文数
+
+①题目：
+
+```java
+Determine whether an integer is a palindrome. Do this without extra space.
+```
+
+给定一个数字，要求判断这个数字是否为回文数字。比如121就是回文数字，122就不是回文数字。
+
+②算法思路：
+
+题目要求只能用`O(1)`的空间，所以不能考虑把它转化为字符串然后`reverse`比较的方法。
+
+基本思路是每次去比较第一位和最后一位，如果不相同则返回`false`，否则继续直到位数为0。
+
+需要注意的点：**负数不是回文数字**，**0是回文数字**。
+
+③算法实现：
+
+```java
+    public static boolean isPalindrome(int x) {
+        if(x < 0) {
+            return false;
+        }
+        int div = 1;
+        while (div <= x/10) {
+            div *= 10;
+        }
+        while (x > 0) {
+            if(x/div != x%10) {
+                return false;
+            }
+            x = (x % div) / 10; // %:去掉最高位  /:去掉最低位
+            div /= 100; //去掉的最高位和最低位，所以要/100
+        }
+        return true;
+    }
+```
+
