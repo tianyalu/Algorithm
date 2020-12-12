@@ -18,7 +18,7 @@ import java.util.Map;
  * @Author: tian
  * @UpdateDate: 2020/12/11 9:56 AM
  */
-public class SubArraySum {
+public class SubArraySum0 {
     public static void main(String[] args) {
         //Integer arr[] = {-3, 1, 2, -3, 4};
         Integer arr[] = {-2, 1, 2, -3, 4};
