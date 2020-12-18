@@ -8,6 +8,10 @@
 
 ## 2. [字符串相关算法](https://github.com/tianyalu/Algorithm/blob/master/string.md)
 
+## 3. [链表相关算法](https://github.com/tianyalu/Algorithm/blob/master/linklist.md)
+
+
+
 ## 一、排序类算法
 
 ### 1.1 快速排序
@@ -26,13 +30,7 @@
 
 
 
-## 三、链表相关算法
 
-### 3.1 链表翻转
-
-迭代翻转、递归翻转，翻转从位置m到n的链表，k个一组翻转链表。
-
-`linklist/ReverseLinkedList` 参考：[https://www.jianshu.com/p/a29834955ffb](https://www.jianshu.com/p/a29834955ffb)
 
 
 
