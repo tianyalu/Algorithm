@@ -10,6 +10,8 @@
 
 ### 3.2 删除排序链表所有重复元素
 
+`linklist/DeleteDupElements` 参考：[https://github.com/LRH1993/android_interview/blob/master/algorithm/LeetCode/Linked-List/Remove-Duplicates-from-Sorted-List.md](https://github.com/LRH1993/android_interview/blob/master/algorithm/LeetCode/Linked-List/Remove-Duplicates-from-Sorted-List.md)
+
 ①题目：
 
 ```java
@@ -44,6 +46,57 @@ For example, Given 1->1->2, return 1->2. Given 1->1->2->3->3, return 1->2->3.
             curr = curr.next;
         }
         return head;
+    }
+```
+
+### 3.3 分治将小于`x`的节点放在大于等于`x`的节点前边
+
+`linklist/PartitionLinkedList` 参考：[https://github.com/LRH1993/android_interview/blob/master/algorithm/LeetCode/Linked-List/Partition-List.md](https://github.com/LRH1993/android_interview/blob/master/algorithm/LeetCode/Linked-List/Partition-List.md)
+
+①题目：
+
+```java
+Given a linked list and a value x, partition it such that all nodes less that x come before nodes greater than or equal to x.
+You should preserve the original relative order of the nodes in each of the two partitions.
+For example, Given 1->4->3->2->5->2, return 1->2->2->4->3->5.
+```
+
+给定一个单链表和数值`x`，划分链表使得所有小于`x`的节点排在大于等于`x`的节点之前。
+
+你应该保留两部分内链表节点原有的相对顺序。
+
+②算法思路：
+
+依据题意，是要根据值`x`对链表进行分割操作，具体是指将所有小于`x`的节点放到不小于`x`的节点之前，但它和快排分割不同的是只需要将小于`x`的节点放到前面，而并不要求对元素进行排序。
+
+这个分割使用两路指针即可解决：左边指针指向小于`x`的节点，右边指针指向不小于`x`的节点，由于左右头节点不确定，我们可以使用两个`dummy`节点。
+
+③算法实现：
+
+```java
+    public static ListNode partition(ListNode head, int x) {
+        ListNode leftDummy = new ListNode(0);
+        ListNode leftCurr = leftDummy;
+        ListNode rightDummy = new ListNode(0);
+        ListNode rightCurr = rightDummy;
+
+        ListNode runner = head;
+        while (runner != null) {
+            if(runner.val < x) {
+                leftCurr.next = runner;
+                leftCurr = leftCurr.next;
+            }else {
+                rightCurr.next = runner;
+                rightCurr = rightCurr.next;
+            }
+            runner = runner.next;
+        }
+
+        //cut off ListNode after rightCurr to avoid cylic
+        rightCurr.next = null;
+        leftCurr.next = rightDummy.next;
+
+        return leftDummy.next;
     }
 ```
 

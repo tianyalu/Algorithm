@@ -1,5 +1,8 @@
 package com.sty.algorithm.linklist;
 
+import com.sty.algorithm.linklist.util.LinkListUtils;
+import com.sty.algorithm.linklist.util.ListNode;
+
 /**
  * 题目：
  *   给定一个排序链表，删除所有重复的元素，每个元素只留下一个。
@@ -15,19 +18,10 @@ package com.sty.algorithm.linklist;
 public class DeleteDupElements {
     public static void main(String[] args) {
         int[] arr = {1, 1, 2, 3, 3};
-        ListNode head = createLinkList(arr);
-        printLinkList(head);
+        ListNode head = LinkListUtils.createLinkList(arr);
+        LinkListUtils.printLinkList(head);
         deleteDupElements(head);
-        printLinkList(head);
-    }
-
-    public static class ListNode {
-        int val;
-        ListNode next;
-        ListNode(int x) {
-            val = x;
-            next = null;
-        }
+        LinkListUtils.printLinkList(head);
     }
 
     public static ListNode deleteDupElements(ListNode head) {
@@ -41,26 +35,4 @@ public class DeleteDupElements {
         return head;
     }
 
-    private static ListNode createLinkList(int[] arr) {
-        if(arr == null || arr.length == 0) {
-            return null;
-        }
-        ListNode cur = new ListNode(arr[0]);
-        ListNode head = cur;
-        for (int i = 1; i < arr.length; i++) {
-            ListNode node = new ListNode(arr[i]);
-            cur.next = node;
-            cur = node;
-        }
-        return head;
-    }
-
-    private static void printLinkList(ListNode head) {
-        ListNode cur = head;
-        while (cur != null) {
-            System.out.print(cur.val + " ");
-            cur = cur.next;
-        }
-        System.out.println();
-    }
 }

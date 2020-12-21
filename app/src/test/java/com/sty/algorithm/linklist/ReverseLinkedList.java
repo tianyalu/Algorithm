@@ -1,5 +1,7 @@
 package com.sty.algorithm.linklist;
 
+import com.sty.algorithm.linklist.util.ListNode;
+
 /**
  * 链表反转
  * 参考：https://www.jianshu.com/p/a29834955ffb
@@ -169,19 +171,13 @@ public class ReverseLinkedList {
         return dummy.next;
     }
 
-
-    static class ListNode {
-        int data;
-        ListNode next;
-    }
-
     //头插法创建链表
     private static ListNode createLinkedList() {
         int[] arr = new int[]{1, 2, 3, 4, 5};
         ListNode header = null;
         for (int i = arr.length - 1; i >= 0; i--) {
             ListNode node = new ListNode();
-            node.data = arr[i];
+            node.val = arr[i];
             node.next = header;
             header = node;
         }
@@ -191,7 +187,7 @@ public class ReverseLinkedList {
     private static void printList(ListNode header) {
         ListNode tempHeader = header;
         while (tempHeader != null) {
-            System.out.println(tempHeader.data);
+            System.out.println(tempHeader.val);
             tempHeader = tempHeader.next;
         }
     }
