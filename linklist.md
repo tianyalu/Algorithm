@@ -100,3 +100,49 @@ For example, Given 1->4->3->2->5->2, return 1->2->2->4->3->5.
     }
 ```
 
+### 3.4 合并连个排序的链表
+
+`linklist/MergeSortedLinkedList` 参考：[https://github.com/LRH1993/android_interview/blob/master/algorithm/LeetCode/Linked-List/Merge-Two-Sorted-Lists.md](https://github.com/LRH1993/android_interview/blob/master/algorithm/LeetCode/Linked-List/Merge-Two-Sorted-Lists.md)
+
+①题目：
+
+```java
+Merge two sorted (ascending) linked lists and return it as a new sorted list. The new sorted list should be made by splicing together the nodes of the two lists and sorted in ascending order.
+Example: Given 1->3->8->11->15->null, 2->null, return 1->2->3->8->11->15->null.
+```
+
+将两个排序链表合并成一个新的排序链表。
+
+②算法思路：
+
+只需要从头开始比较已排序的两个链表，新链表指针每次指向值小的节点，依次比较下去，最后，当其中一个链表到达了末尾，我们只需要把新链表指针指向另一个没有到末尾的链表此时的指针即可。
+
+③算法实现：
+
+```java
+    public static ListNode mergeLinkedList(ListNode h1, ListNode h2) {
+        ListNode dummy = new ListNode(-1);
+        ListNode cur = dummy;
+
+        while (h1 != null && h2 != null) {
+            if(h1.val < h2.val) {
+                cur.next = h1;
+                h1 = h1.next;
+            }else {
+                cur.next = h2;
+                h2 = h2.next;
+            }
+            cur = cur.next;
+        }
+
+        //link to non-null list
+        if(h1 == null) {
+            cur.next = h2;
+        }else {
+            cur.next = h1;
+        }
+
+        return dummy.next;
+    }
+```
+

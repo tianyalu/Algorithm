@@ -63,6 +63,17 @@ public class QuickSort {
      * @param L 左下标
      * @param R 右下标
      * @return 返回等于部分的第一个元素的下标和最后一个下标组成的整数数组
+     *    4, 3, 2, 6, 5, 6, 2, 7, 5, 8, 4
+     * 1：4, 3, 2, 6, 5, 6, 2, 7, 5, 8, 4
+     * 2：3, 4, 2, 6, 5, 6, 2, 7, 5, 8, 4
+     * 3：3, 2, 4, 6, 5, 6, 2, 7, 5, 8, 4
+     * 4：3, 2, 4, 4, 5, 6, 2, 7, 5, 8, 6
+     * 5：3, 2, 4, 4, 8, 6, 2, 7, 5, 5, 6
+     * 6：3, 2, 4, 4, 5, 6, 2, 7, 8, 5, 6
+     * 7：3, 2, 4, 4, 7, 6, 2, 5, 8, 5, 6
+     * 8：3, 2, 4, 4, 2, 6, 7, 5, 8, 5, 6
+     * 9：3, 2, 2, 4, 4, 6, 7, 5, 8, 5, 6
+     *10：3, 2, 2, 4, 4, 6, 7, 5, 8, 5, 6
      */
     private static int[] partition(int[] arr, int L, int R) {
         int basic = arr[R];
@@ -70,9 +81,9 @@ public class QuickSort {
         int more = R + 1;
         while (L < more) {
             if(arr[L] < basic) {
-                swap(arr, ++less, L++);
+                swap(arr, ++less, L++);  //L代表current, less代表前驱（左边最后一个小于基准的下标）
             }else if(arr[L] > basic) {
-                swap(arr, --more, L);
+                swap(arr, --more, L);  //more 代表右边第一个大于基准的下标
             }else {
                 L++;
             }
