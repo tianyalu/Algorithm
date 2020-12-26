@@ -249,3 +249,39 @@ public class LRUCache {
 }
 ```
 
+### 3.6 移除所有目标元素
+
+`linklist/RemoveTargetElements` 
+
+①题目：
+
+```java
+Remove All elements from a linked list of integers that have value val.
+Example: Given 1->2->3->3->4->5->3, val = 3, you should return the list as 1->2->4->5.
+```
+
+删除链表中等于指定值`val`的所有节点。
+
+②算法思路：
+
+删除链表中指定值，找到其前一个节点即可，将`next`指向下一个节点即可。
+
+③算法实现：
+
+```java
+    public static ListNode removeElements(ListNode head, int val) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode curr = dummy;
+
+        while (curr.next != null) {
+            if(curr.next.val == val) {
+                curr.next = curr.next.next;
+            }else {
+                curr = curr.next;
+            }
+        }
+        return dummy.next;
+    }
+```
+
