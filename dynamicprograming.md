@@ -228,3 +228,127 @@ $$
     }
 ```
 
+### 4.4 股票最高价格
+
+#### 4.4.1 仅限一次交易
+
+①题目：
+
+```java
+Say you have an array for which the ith element is the price of a given stock on day i. If you were only permitted to complete at most one transaction(ie, buy one and sell one share of he stock), design an algorithm to find the maximum profit.
+```
+
+买股票问题，一个数组`prices`，其中`prices[i]`表示第`i`天股票的价格，根据题意，我们知道只能进行一次交易，但需要最大利润。
+
+②解题思路：
+
+需要在最低价买入，最高价卖出，当然买入一定要在卖出之前。只需要遍历一次数组，通过一个变量记录当前最低价格，同时算出此次交易利润，并与当前最大值比较即可。
+
+③解题代码：
+
+```java
+    private static int maxProfitInOneTransaction(int[] prices) {
+        if(prices == null || prices.length == 0) {
+            return 0;
+        }
+
+        int minPrice = Integer.MAX_VALUE;
+        int maxProfit = 0;
+        for (int price : prices) {
+            if (price < minPrice) {
+                minPrice = price;
+            }
+            maxProfit = Math.max(maxProfit, price - minPrice);
+        }
+        
+        return maxProfit;
+    }
+```
+
+#### 4.4.2 可以多次交易
+
+①题目：
+
+```java
+Say you have an array for which the ith element is the price of a given stock on day i.
+Design an algorithm to find the maximum profit. You may complete as many transactions as you like(ie, buy one and sell one share of the stock multiple times). However, you may not engage in multiple transactions at the same time(ie, you must sell the stock before you buy again).
+```
+
+假设有一个数组，它的第`i`个元素是一个给定的股票在第`i`天的价格，设计一个算法来找到最大的利润。你可以完成尽可能多的交易（多次买卖股票），然而你不能同时参与多个交易（你必须在再次购买前出售股票）。
+
+②解题思路：
+
+因为不限制交易次数，我们在第`i`天买入，如果发现`i+1`天比`i`高，那么就可以累加到利润里面。
+
+③算法实现：
+
+```java
+    private static int maxProfitInMultiTransactions(int[] prices) {
+        if(prices == null || prices.length == 0) {
+            return 0;
+        }
+
+        int maxProfit = 0;
+        for (int i = 0; i < prices.length - 1; i++) {
+            int diff = prices[i + 1] - prices[i];
+            if(diff > 0) {
+                maxProfit += diff;
+            }
+        }
+
+        return maxProfit;
+    }
+```
+
+#### 4.4.3 最多两笔交易
+
+①题目：
+
+```java
+Say ou have an array for which the ith element is the price of a given stock on day i.
+Design an algorithm to find the maximum profit. You may complete at most two transactions.
+Note: You may not engage in multiple transactions at the sam time(ie, you must sell the stock before you buy again).
+```
+
+假设你有一个数组，它的第`i`个元素是一支给定的股票在第`i`天的价格，设计一个算法来找到最大利润。你最多可以完成两笔交易，然而你不能同时参与多个交易（你必须在再次购买前出售股票）。
+
+②解题思路：
+
+最多允许两次不相交的交易，也就意味着这两次交易间存在某一分界线，考虑到可以只交易一次，也可交易0次，故分界线的变化范围为第一天至最后一天，值需要考虑分界线两边各自的最大利润，最后选出利润和最大的即可。
+
+这种方法抽象之后则为首先将 [1, n] 拆分为 [1, i] 和 [i+1, n]，参考买股票的第一题计算各自区间的最大利润即可。[1, i] 区间的最大利润很好算，但是如何计算 [i+1, n] 区间的最大利润呢？难道有重复`n`次才能得到？注意到区间的右侧`n`是个不变值，我们从 [1, i] 计算最大利润时更新波谷的值，那么我们可否逆序计算最大利润呢？这时候就需要更新记录波峰的值了。
+
+③算法实现：
+
+```java
+    private static int maxProfitInAtMostTwoTransactions(int[] prices) {
+        if(prices == null || prices.length == 0) {
+            return 0;
+        }
+
+        //get profit in the front of prices
+        int[] profitFront = new int[prices.length]; //列表中存放在每个价格出售时的最大利润（从前往后）
+        profitFront[0] = 0;
+        for (int i = 1, valley = prices[0]; i < prices.length; i++) {
+            profitFront[i] = Math.max(profitFront[i - 1], prices[i] - valley);
+            valley = Math.min(valley, prices[i]);  //valley代表当前之前的最低价格
+        }
+
+        //get profit in the back of prices, (i, n)
+        int[] profitBack = new int[prices.length];  //列表中存放在每个价格出售时的最大利润（从后往前）
+        profitBack[prices.length - 1] = 0;
+        for (int i = prices.length - 2, peak = prices[prices.length - 1]; i >=0 ; i--) {
+            profitBack[i] = Math.max(profitBack[i + 1], peak - prices[i]);
+            peak = Math.max(peak, prices[i]); //peak代表当前之后的最高价格
+        }
+
+        //add the profit front and back
+        int profit = 0;
+        for (int i = 0; i < prices.length; i++) {
+            profit = Math.max(profit, profitFront[i] + profitBack[i]);
+        }
+
+        return profit;
+    }
+```
+
