@@ -352,3 +352,67 @@ Note: You may not engage in multiple transactions at the sam time(ie, you must s
     }
 ```
 
+#### 4.4.4 最多`K`笔交易
+
+①题目：
+
+```java
+Say you have an array for which the ith element is the price of a given stock on day i. Design an algorithm to find the maximum profit. You may complete at most k transactions.
+Example: Given prices = [4, 4, 6, 1, 1, 4, 2, 5], and k = 2, return 6.
+Note: You may not engage in multiple transactions at the same time(i.e.,you must sell the stock before you buy again).
+Challenge: O(nk) time.
+```
+
+题目和4.4.3 一样，要求交易`k`次，时间复杂度`O(nk)`。
+
+②算法思路：
+
+仍然用动态规划来完成。我们维护两种变量，一个是当前到达第`i`天可以最多进行`j`次交易，最好的利润是`global[i][j]`，另一个是当前达到第`i`天，最多可进行`j`次交易，并且最后一次交易在当天卖出的最好利润是`local[i][j]`，递推公式如下：
+$$
+global[i][j] = max(local[i][j], global[i-1][j])
+$$
+也就是取当前局部最好的，和过往全局最好的两者中最大的那个（因为最后一次交易如果包含当前天一定在局部最好的里面，否则一定在过往全局最优的里面）。全局（到达第`i`天进行`j`次交易的最大收益）=`max{`局部（在第`i`天交易后，恰好满足`j`次交易），全局（到达第`i-1`天时已满足`j`次交易）`}`。对于局部变量的维护，递推公式如下：
+$$
+local[i][j] = max(global[i-1][j-1] + max(diff, 0), local[i-1][j] + diff)
+$$
+也就是看两个量：第一个是全局到`i-1`天进行`j-1`次交易，然后加上今天的交易，如果今天是赚钱的话（也就是前面只要`j-1`次交易，最后一次交易取当天），第二个量则是取`local`第`i-1`天`j`次交易，然后加上今天的差值（这里因为`local[i-1][j]`比如包含第`i-1`天卖出的交易，所以现在变成第`i`天卖出，并不会增加交易次数，而且这里无论`diff`是不是大于0都一定要加上，否则就不满足`local[i][j]`必须在最后一天卖出的条件了）。
+
+局部（在第`i`天交易后，总共交易了`j`次）= `max{情况2， 情况1}`
+
+情况1：在第`i-1`天时恰好已经交易了`j`次（`local[i-1][j]`），那么如果`i-1`天到`i`天再交易一次：即在第`i-1`天买入，第`i`天卖出（`diff`）,则并不会增加交易次数！【例如第一天买入，第二天卖出，然后第二天又买入，第三天再卖出的行为和第一天买入、第三天卖出的效果是一样的，其实只进行了一次交易！因为有连续性】；
+
+情况2：在第`i-1`天后，共交易了`j-1`次（`global[i-1][j-1]`），因此未来满足“第`i`天过后共进行了`j`次交易，且第`i`天必须进行交易”的条件，我们可以选择在第`i-1`天买入，然后再在第`i`天卖出（`diff`），或者选择在第`i`天买入，然后同样在第`i`天卖出（收益为0）。
+
+上面的算法对于天数需要一次扫描，而每次要对交易次数进行递推式求解，所以时间复杂度是`O(n*k)`，如果是最多进行两次交易，那么复杂度还是`O(n)`，空间上只需要维护当天数据即可，所以是`O(k)`，当`k=2`，则是`O(1)`。
+
+补充：这道题还有一个陷阱，当`k`大于天数时，其实就退化成`Best Time to Buy and Sell Stock II`了。
+
+③算法实现：
+
+```java
+    private static int maxProfitInAtMostKTransactions(int[] prices, int k) {
+        if(prices == null || prices.length == 0 || k < 1) {
+            return 0;
+        }
+
+        int days = prices.length;
+        if(days <= k) {
+            return maxProfitInMultiTransactions(prices);
+        }
+
+        //local[i][j] 表示前i天，至多进行j次交易，第i天必须sell的最大收益
+        int[][] local = new int[days][k + 1];
+        //global[i][j] 表示前i天，至多进行j次交易，第i天可以不sell的最大获益
+        int[][] global = new int[days][k + 1];
+
+        for (int i = 1; i < days; i++) {
+            int diff = prices[i] - prices[i - 1];
+            for (int j = 1; j <= k; j++) {
+                local[i][j] = Math.max(global[i - 1][j - 1] + Math.max(diff, 0), local[i - 1][j] + diff);
+                global[i][j] = Math.max(global[i - 1][j], local[i][j]);
+            }
+        }
+        return global[days - 1][k];
+    }
+```
+

@@ -19,6 +19,8 @@ package com.sty.algorithm.dynamicprograming;
  *   注意到区间的右侧`n`是个不变值，我们从 [1, i] 计算最大利润时更新波谷的值，那么我们可否逆序计算最大利润呢？
  *   这时候就需要更新记录波峰的值了。
  *
+ * 四、最多允许k次交易
+ *
  * @Author: tian
  * @UpdateDate: 2021/1/8 10:02 AM
  */
@@ -28,6 +30,7 @@ public class StockTransaction {
         System.out.println(maxProfitInOneTransaction(prices));  //4
         System.out.println(maxProfitInMultiTransactions(prices));  //8
         System.out.println(maxProfitInAtMostTwoTransactions(prices));  //6
+        System.out.println(maxProfitInAtMostKTransactions(prices, 3));  //8
     }
 
 
@@ -112,5 +115,34 @@ public class StockTransaction {
         return profit;
     }
 
+    /**
+     * 买股票，最多交易k次
+     * @param prices 股票价格数组
+     * @param k 交易次数
+     * @return
+     */
+    private static int maxProfitInAtMostKTransactions(int[] prices, int k) {
+        if(prices == null || prices.length == 0 || k < 1) {
+            return 0;
+        }
 
+        int days = prices.length;
+        if(days <= k) {
+            return maxProfitInMultiTransactions(prices);
+        }
+
+        //local[i][j] 表示前i天，至多进行j次交易，第i天必须sell的最大收益
+        int[][] local = new int[days][k + 1];
+        //global[i][j] 表示前i天，至多进行j次交易，第i天可以不sell的最大获益
+        int[][] global = new int[days][k + 1];
+
+        for (int i = 1; i < days; i++) {
+            int diff = prices[i] - prices[i - 1];
+            for (int j = 1; j <= k; j++) {
+                local[i][j] = Math.max(global[i - 1][j - 1] + Math.max(diff, 0), local[i - 1][j] + diff);
+                global[i][j] = Math.max(global[i - 1][j], local[i][j]);
+            }
+        }
+        return global[days - 1][k];
+    }
 }
