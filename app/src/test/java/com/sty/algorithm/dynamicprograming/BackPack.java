@@ -15,6 +15,11 @@ package com.sty.algorithm.dynamicprograming;
  *      > 初始化`f[1...n][0]`表示前`1...n`个物品，取出一些能否组成和为0大小的背包始终为真，其它初始化为假。
  *      > 4. **`Answer: `** 寻找使`f[n][S]`值为`true`的最大的`S` (`S`的取值范围为`1`到`m`)。
  *
+ * 二、背包最大价值问题
+ *   ①题目：两个数组，一个表示体积，另一个表示价值，给定一个容积为 m 的背包， 求背包装入物品的最大价值。
+ *   ②算法思路：
+ *      首先定义状态`K(i,w)`为前`i`个物品放入`size`为`w`的背包中所获得的最大价值，则相应的状态转移方程为：
+ *      `K(i,w)=max{K(i-1,w), K(i-1,w-wi)+vi}`
  * @Author: tian
  * @UpdateDate: 2021/1/22 3:28 PM
  */
@@ -23,6 +28,9 @@ public class BackPack {
     public static void main(String[] args) {
         int[] A = {2, 3, 5, 7};
         System.out.println(backPack01(11, A));
+
+        int[] V = {1, 5, 2, 4};
+        System.out.println(backPackMaxValue(10, A, V));
     }
 
     /**
@@ -69,5 +77,41 @@ public class BackPack {
         }
 
         return 0;
+    }
+
+    /**
+     * 背包最大价值问题
+     *
+     *dpij   1 2 3 4 5 6 7 8 9 10   V
+     *     0 0 0 0 0 0 0 0 0 0 0   //前0个item,在给定背包份数可以装得下的情形下能取到的最大价值
+     *   2 0 0 1 1 1 1 1 1 1 1 1    1
+     *   3 0 0 1 5 5 6 6 6 6 6 6    5
+     *   5 0 0 1 5 5 6 6 6 7 7 8    2
+     *   7 0 0 1 5 5 6 6 6 7 7 9    4
+     *
+     *   int[] V = {1, 5, 2, 4};
+     * @param m An integer m denotes the size of a backpack
+     * @param A Given n items with size A[i]
+     * @param V These n items with value V[i]
+     * @return The maximum value
+     */
+    public static int backPackMaxValue(int m, int[]A, int[] V) {
+        if(A == null || A.length == 0 || V == null || V.length == 0) {
+            return 0;
+        }
+
+        int[][] dp = new int[A.length + 1][m + 1];
+        for (int i = 0; i <= A.length; i++) {
+            for (int j = 0; j <= m; j++) {
+                if(i == 0 || j == 0) {
+                    dp[i][j] = 0;
+                }else if(A[i - 1] > j) {
+                    dp[i][j] = dp[i - 1][j];
+                }else {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - A[i - 1]] + V[i - 1]);
+                }
+            }
+        }
+        return dp[A.length][m];
     }
 }
