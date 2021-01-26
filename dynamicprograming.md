@@ -928,3 +928,72 @@ Example: Given 4 items with size [2, 3, 5, 7] and value [1, 5, 2, 4], and a back
     }
 ```
 
+#### 4.8.3 背包装最大价值问题-可以重复选择
+
+①题目：
+
+```java
+Given n kind of items with size Ai and value Vi(each item has an infinite number available) and a backpack with size m. What's the maximum value can you put into the backpack?
+Notice: You cannot divide item into small pieces and the total size of items you choose should smaller or equal to m.
+Example: Given 4 items with size [2, 3, 5, 7] and value [1, 5, 2, 4], and a backpack with size 10. The maximum value is 15.
+```
+
+背包装最大价值+重复选择。
+
+②算法思路：
+
+和`01`背包问题类似，状态转移方程如下：
+$$
+f[i][j] = 
+\begin{cases}
+f[i-1][j],\quad 不放A[i] \\
+f[i-1][j-k_i*A[i]] + k_i*V[i], \quad 0 \leq k_i \leq k 取最大值 0 \leq k_i*A[i] \leq m, \quad (放A[i],可放多个设为k, k=j/A[i])
+\end{cases}
+$$
+③算法实现
+
+```java
+    /**
+     * 多重背包最大价值问题：总体积是m, 每个小物品的体积是A[i]，每个小物品的价值是V[i]
+     *
+     * Pij   1 2 3 4 5 6  7  8  9  10   V
+     *     0 0 0 0 0 0 0  0  0  0  0   //前0个item,在给定背包份数可以装得下的情形下能取到的最大价值
+     *   2 0 0 1 1 2 2 3  3  4  4  5    1
+     *   3 0 0 1 5 5 6 10 10 12 15 15   5
+     *   5 0 0 1 5 5 6 10 10 12 15 15   2
+     *   7 0 0 1 5 5 5 10 10 10 15 15   4
+     *
+     *   int[] V = {1, 5, 2, 4};
+     * @param m An integer m denotes the size of a backpack
+     * @param A Given n items with size A[i]
+     * @param V These n items' value
+     * @return The maximum value
+     */
+    public static int backPackMaxValueWithRepeat(int m, int[] A, int[] V) {
+        if(A == null || A.length == 0 || V == null || V.length == 0) {
+            return 0;
+        }
+
+        int[][] P = new int[A.length + 1][m + 1]; //P[i][j]前i个物品放在j的空间中的最大价值
+        for (int i = 1; i <= A.length; i++) {
+            for (int j = 1; j <= m; j++) {
+                if(j >= A[i - 1]) {
+                    int k = j / A[i - 1]; //该物品最大可以放k个
+                    while(k >= 0) {
+                        if(j >= A[i - 1] * k) {
+                            P[i][j] = Math.max(P[i][j], P[i - 1][j - k * A[i - 1]] + k * V[i - 1]);
+                        }
+                        k--;
+                    }
+                }else {
+                    P[i][j] = Math.max(P[i][j], P[i - 1][j]);
+                }
+                System.out.print(P[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        return P[A.length][m];
+    }
+```
+

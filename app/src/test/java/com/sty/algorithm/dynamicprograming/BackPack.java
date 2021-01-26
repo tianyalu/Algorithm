@@ -20,6 +20,14 @@ package com.sty.algorithm.dynamicprograming;
  *   ②算法思路：
  *      首先定义状态`K(i,w)`为前`i`个物品放入`size`为`w`的背包中所获得的最大价值，则相应的状态转移方程为：
  *      `K(i,w)=max{K(i-1,w), K(i-1,w-wi)+vi}`
+ *
+ * 三、多重背包最大价值问题
+ *   ①题目：背包装最大价值+重复选择。
+ *   ②算法思路：
+ *      和`01`背包问题类似，状态转移方程如下：
+ *      f[i][j] =
+ *          f[i-1][j],  不放A[i]
+ *          f[i-1][j-k_i*A[i]] + k_i*V[i],  0 <= k_i <= k 取最大值 0 <= k_i*A[i] <= m, (放A[i],可放多个设为k, k=j/A[i])
  * @Author: tian
  * @UpdateDate: 2021/1/22 3:28 PM
  */
@@ -27,10 +35,12 @@ public class BackPack {
 
     public static void main(String[] args) {
         int[] A = {2, 3, 5, 7};
-        System.out.println(backPack01(11, A));
+//        System.out.println(backPack01(11, A));
 
         int[] V = {1, 5, 2, 4};
-        System.out.println(backPackMaxValue(10, A, V));
+//        System.out.println(backPackMaxValue(10, A, V));
+
+        System.out.println(backPackMaxValueWithRepeat(10, A, V));
     }
 
     /**
@@ -110,8 +120,53 @@ public class BackPack {
                 }else {
                     dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - A[i - 1]] + V[i - 1]);
                 }
+                //System.out.print(dp[i][j] + " ");
             }
+            //System.out.println();
         }
         return dp[A.length][m];
+    }
+
+    /**
+     * 多重背包最大价值问题：总体积是m, 每个小物品的体积是A[i]，每个小物品的价值是V[i]
+     *
+     * Pij   1 2 3 4 5 6  7  8  9  10   V
+     *     0 0 0 0 0 0 0  0  0  0  0   //前0个item,在给定背包份数可以装得下的情形下能取到的最大价值
+     *   2 0 0 1 1 2 2 3  3  4  4  5    1
+     *   3 0 0 1 5 5 6 10 10 12 15 15   5
+     *   5 0 0 1 5 5 6 10 10 12 15 15   2
+     *   7 0 0 1 5 5 5 10 10 10 15 15   4
+     *
+     *   int[] V = {1, 5, 2, 4};
+     * @param m An integer m denotes the size of a backpack
+     * @param A Given n items with size A[i]
+     * @param V These n items' value
+     * @return The maximum value
+     */
+    public static int backPackMaxValueWithRepeat(int m, int[] A, int[] V) {
+        if(A == null || A.length == 0 || V == null || V.length == 0) {
+            return 0;
+        }
+
+        int[][] P = new int[A.length + 1][m + 1]; //P[i][j]前i个物品放在j的空间中的最大价值
+        for (int i = 1; i <= A.length; i++) {
+            for (int j = 1; j <= m; j++) {
+                if(j >= A[i - 1]) {
+                    int k = j / A[i - 1]; //该物品最大可以放k个
+                    while(k >= 0) {
+                        if(j >= A[i - 1] * k) {
+                            P[i][j] = Math.max(P[i][j], P[i - 1][j - k * A[i - 1]] + k * V[i - 1]);
+                        }
+                        k--;
+                    }
+                }else {
+                    P[i][j] = Math.max(P[i][j], P[i - 1][j]);
+                }
+                System.out.print(P[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        return P[A.length][m];
     }
 }
