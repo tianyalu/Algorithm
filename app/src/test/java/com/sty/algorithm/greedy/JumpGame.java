@@ -17,7 +17,20 @@ package com.sty.algorithm.greedy;
  *      > 2. 一旦跳到`i`，则`maxIndex = max(maxIndex, i + A[i])`；
  *      > 3. 能跳到最后一个位置`n - 1`的条件是：`maxIndex >= n - 1`.
  *
- * 二、
+ * 二、最少的跳跃次数到达数组的最后一个位置
+ *  ①题目：
+ *      给出一个非负整数数组，你最初定位在数组的第一个位置，数组中的每个元素代表你在哪个位置可以跳跃的最大长度，
+ *    你的目标是使用最少的跳跃测试到达数组的最后一个位置。
+ *      Given an array of non-negative integers, you are initially positioned at the first index of the array.
+ *    Each element in the array represents your maximum jump length at that position.Your goal is to
+ *    reach the last index in the minimum number of jumps.
+ *      For example: Given array A = [2, 3, 1, 1, 4], The minimum number of jumps to reach the last
+ *    index is 2. (Jump 1 step from index 0 to 1, then 3 steps to the last index.)
+ *  ②算法思路：
+ *      同样可以用`greedy`解决，与5.1.1不同的是，求的不是对每个`i`从`A[0:i]`能跳到最远的距离，而是计算跳了`k`次后能达到的最远距离，
+ *    这里的通项公式为：
+ *      d[k] = max(i + A[i]), d[k - 2] < i <= d[k - 1]
+ *
  * @Author: tian
  * @UpdateDate: 2021/1/29 9:03 AM
  */
@@ -27,6 +40,7 @@ public class JumpGame {
         int[] A = {2, 3, 1, 1, 4};
 //        int[] A = {3, 1, 1, 0, 4};
         System.out.println(canJump2End(A));
+        System.out.println(minimumTimeJump2End(A));
     }
 
     //能否跳跃到数组的最后一个位置
@@ -43,5 +57,27 @@ public class JumpGame {
             }
         }
         return farthest >= A.length - 1;
+    }
+
+    //{2, 3, 1, 1, 4}
+    //最少的跳跃次数到达数组的最后一个位置
+    public static int minimumTimeJump2End(int[] A) {
+        if(A == null || A.length == 0) {
+            return  -1;
+        }
+
+        int start = 0, end = 0, jumps = 0;
+        while (end < A.length - 1) {
+            jumps++;
+            int farthest = end;
+            for (int i = start; i <= end; i++) {
+                if(A[i] + i > farthest) {
+                    farthest = A[i] + i;
+                }
+            }
+            start = end + 1;
+            end = farthest;
+        }
+        return jumps;
     }
 }
