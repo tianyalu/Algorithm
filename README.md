@@ -201,3 +201,4 @@ $$
 
 ## 1. [数组相关算法](https://github.com/tianyalu/Algorithm/blob/master/for_offer_readme/array.md)
 
+## 2. [字符串相关算法](https://github.com/tianyalu/Algorithm/blob/master/for_offer_readme/string.md)
