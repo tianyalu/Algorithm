@@ -204,3 +204,5 @@ $$
 ## 2. [字符串相关算法](https://github.com/tianyalu/Algorithm/blob/master/for_offer_readme/string.md)
 
 ## 3. [链表相关算法](https://github.com/tianyalu/Algorithm/blob/master/for_offer_readme/linklist.md)
+
+## 4. [树相关算法](https://github.com/tianyalu/Algorithm/blob/master/for_offer_readme/tree.md)

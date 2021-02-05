@@ -1,6 +1,6 @@
 package com.sty.algorithm.linklist;
 
-import com.sty.algorithm.linklist.util.ListNode;
+import com.sty.util.ListNode;
 
 /**
  * 链表反转

@@ -1,7 +1,7 @@
 package com.sty.algorithm.linklist;
 
-import com.sty.algorithm.linklist.util.LinkListUtils;
-import com.sty.algorithm.linklist.util.ListNode;
+import com.sty.util.LinkListUtils;
+import com.sty.util.ListNode;
 
 /**
  * 题目：

@@ -1,6 +1,7 @@
-package com.sty.algorithm.linklist.util;
+package com.sty.util;
 
 /**
+ * 链表节点
  * @Author: tian
  * @UpdateDate: 2020/12/21 11:20 AM
  */

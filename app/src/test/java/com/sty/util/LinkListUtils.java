@@ -1,4 +1,4 @@
-package com.sty.algorithm.linklist.util;
+package com.sty.util;
 
 /**
  * @Author: tian

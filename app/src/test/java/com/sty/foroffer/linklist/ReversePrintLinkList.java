@@ -1,7 +1,7 @@
 package com.sty.foroffer.linklist;
 
-import com.sty.algorithm.linklist.util.LinkListUtils;
-import com.sty.algorithm.linklist.util.ListNode;
+import com.sty.util.LinkListUtils;
+import com.sty.util.ListNode;
 
 import java.util.Stack;
 
