@@ -206,3 +206,5 @@ $$
 ## 3. [链表相关算法](https://github.com/tianyalu/Algorithm/blob/master/for_offer_readme/linklist.md)
 
 ## 4. [树相关算法](https://github.com/tianyalu/Algorithm/blob/master/for_offer_readme/tree.md)
+
+## 7. [其它](https://github.com/tianyalu/Algorithm/blob/master/for_offer_readme/other.md)
