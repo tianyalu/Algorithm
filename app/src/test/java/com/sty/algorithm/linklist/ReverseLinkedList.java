@@ -11,15 +11,15 @@ import com.sty.util.ListNode;
 public class ReverseLinkedList {
     public static void main(String[] args) {
         ListNode header = createLinkedList();
-        //printList(header);
+        printList(header);
 
         //printList(reverseLinkedList1(header));
 
-        //printList(reverseLinkedList2(header));
+        printList(reverseLinkedList2(header));
 
         //printList(reverseBetweenMn(header, 2, 4));
 
-        printList(reverseKGroup(header, 3));
+        //printList(reverseKGroup(header, 3));
     }
 
 
@@ -187,8 +187,9 @@ public class ReverseLinkedList {
     private static void printList(ListNode header) {
         ListNode tempHeader = header;
         while (tempHeader != null) {
-            System.out.println(tempHeader.val);
+            System.out.print(tempHeader.val + " ");
             tempHeader = tempHeader.next;
         }
+        System.out.println();
     }
 }
