@@ -74,3 +74,81 @@
     }
 ```
 
+### 4.2 树的子结构
+
+`foroffer/tree/SubBinaryTree`, 参考：[15](https://github.com/LRH1993/android_interview/blob/master/algorithm/For-offer/15.md)
+
+①题目：
+
+输入两棵二叉树`A`和`B`，判断`B`是不是`A`的子结构。
+
+②算法思路：
+
+要查找树`A`中是否存在和数`B`结构一样的子树，我们可以分成两步：第一步在树`A`中找到和`B`的根节点的值一样的节点`R`，第二步再判断树`A`中以`R`为根节点的子树是不是包含和树`B`一样的结构。
+
+③算法实现：
+
+```java
+    /**
+     * 输入两棵二叉树A和B，判断B是不是A的子结构
+     * @param root1 数A的根结点
+     * @param root2 数B的根结点
+     * @return 树B是否是树A的子结构
+     */
+    public static boolean hasSubTree(BinaryTreeNode root1, BinaryTreeNode root2) {
+        //只要两个对象是同一个就返回true
+        if(root1 == root2) {
+            return true;
+        }
+        //只要数B的根节点为空就返回true
+        if(root2 == null) {
+            return true;
+        }
+        //树B的根结点不为空，如果树A的根结点为空就返回false
+        if(root1 == null) {
+            return false;
+        }
+
+        boolean result = false;
+        //如果结点的值相等就调用匹配方法
+        if(root1.value == root2.value) {
+            result = match(root1, root2);
+        }
+
+        if(result) {  //如果匹配就直接返回结果
+            return true;
+        }else {  //如果不匹配就找树A的左子结点和右子结点进行判断
+            return match(root1.left, root2) || match(root1.right, root2);
+        }
+    }
+
+    /**
+     * 判断以root1为根结点和以root2为根结点的两棵树是否完全相同
+     * @param root1 
+     * @param root2
+     * @return
+     */
+    public static boolean match(BinaryTreeNode root1, BinaryTreeNode root2) {
+        //只要两个对象是同一个就返回true
+        if(root1 == root2) {
+            return true;
+        }
+        //只要数B的根节点为空就返回true
+        if(root2 == null) {
+            return true;
+        }
+        //树B的根结点不为空，如果树A的根结点为空就返回false
+        if(root1 == null) {
+            return false;
+        }
+
+        //如果两个结点的值相等，则分别判断其左子结点和右子结点
+        if(root1.value == root2.value) {
+            return match(root1.left, root2.left) && match(root1.right, root2.right);
+        }
+
+        //结点值不相等，返回false
+        return false;
+    }
+```
+

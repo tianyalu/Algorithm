@@ -15,6 +15,16 @@ import com.sty.util.BinaryTreeUtils;
  * @UpdateDate: 2021/2/5 9:53 AM
  */
 public class RecreateBinaryTree {
+    /**
+     *        1
+     *       ↙ ↘
+     *      2   3
+     *     ↙   ↙ ↘
+     *    4   5   6
+     *     ↘     ↙
+     *      7   8
+     * @param args
+     */
     public static void main(String[] args) {
         int[] preOrder = {1, 2, 4, 7, 3, 5, 6, 8};
         int[] inOrder = {4, 7, 2, 1, 5, 3, 8, 6};
