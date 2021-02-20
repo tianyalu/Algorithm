@@ -157,5 +157,9 @@
 
 ### 3.4 链表反转【13】
 
-参考：[3.1反转链表](https://github.com/tianyalu/Algorithm/blob/master/readme/linklist.md)
+参考：[3.1 反转链表](https://github.com/tianyalu/Algorithm/blob/master/readme/linklist.md)
+
+### 3.5 合并两个排序的链表 【14】
+
+参考：[3.4 合并两个排序的链表](https://github.com/tianyalu/Algorithm/blob/master/readme/linklist.md)
 

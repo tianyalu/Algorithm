@@ -20,7 +20,9 @@ public class MergeSortedLinkedList {
         int[] arr2 = {2};
         ListNode h1 = LinkListUtils.createLinkList(arr1);
         ListNode h2 = LinkListUtils.createLinkList(arr2);
-        LinkListUtils.printLinkList(mergeLinkedList(h1, h2));
+        //LinkListUtils.printLinkList(mergeLinkedList(h1, h2));
+
+        LinkListUtils.printLinkList(mergeByRecursion(h1, h2));
     }
 
     public static ListNode mergeLinkedList(ListNode h1, ListNode h2) {
@@ -46,5 +48,32 @@ public class MergeSortedLinkedList {
         }
 
         return dummy.next;
+    }
+
+    /**
+     * 递归实现合并两个排序的链表
+     * @param h1 排序链表1头结点
+     * @param h2 排序链表2头结点
+     * @return 合并后的排序链表头结点
+     */
+    public static ListNode mergeByRecursion(ListNode h1, ListNode h2) {
+        if(h1 == null) {  //第一个链表为空，返回第二个链表头结点
+            return h2;
+        }else if(h2 == null) {  //第二个链表为空，返回第二个链表头结点
+            return h1;
+        }
+
+        //记录两个链表中头部较小的结点
+        ListNode tmp = h1;
+        if(tmp.val < h2.val) {
+            //如果第一个链表的头结点小，就递归处理第一个链表的下一个结点和第二个链表的头结点
+            tmp.next = mergeByRecursion(h1.next, h2);
+        }else {
+            //如果第二个链表的头结点小，就递归处理第一个链表的头结点和第二个链表的头结点的下一个结点
+            tmp = h2;
+            tmp.next = mergeByRecursion(h1, h2.next);
+        }
+
+        return tmp;
     }
 }

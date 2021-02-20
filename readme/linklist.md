@@ -174,7 +174,7 @@
 
 ### 3.2 删除排序链表所有重复元素
 
-`linklist/DeleteDupElements` 参考：[https://github.com/LRH1993/android_interview/blob/master/algorithm/LeetCode/Linked-List/Remove-Duplicates-from-Sorted-List.md](https://github.com/LRH1993/android_interview/blob/master/algorithm/LeetCode/Linked-List/Remove-Duplicates-from-Sorted-List.md)
+`linklist/DeleteDupElements` 参考：[Remove-Duplicates-from-Sorted-List](https://github.com/LRH1993/android_interview/blob/master/algorithm/LeetCode/Linked-List/Remove-Duplicates-from-Sorted-List.md)
 
 ①题目：
 
@@ -215,7 +215,7 @@ For example, Given 1->1->2, return 1->2. Given 1->1->2->3->3, return 1->2->3.
 
 ### 3.3 分治将小于`x`的节点放在大于等于`x`的节点前边
 
-`linklist/PartitionLinkedList` 参考：[https://github.com/LRH1993/android_interview/blob/master/algorithm/LeetCode/Linked-List/Partition-List.md](https://github.com/LRH1993/android_interview/blob/master/algorithm/LeetCode/Linked-List/Partition-List.md)
+`linklist/PartitionLinkedList` 参考：[Partition-List](https://github.com/LRH1993/android_interview/blob/master/algorithm/LeetCode/Linked-List/Partition-List.md)
 
 ①题目：
 
@@ -264,9 +264,40 @@ For example, Given 1->4->3->2->5->2, return 1->2->2->4->3->5.
     }
 ```
 
+④递归法实现：
+
+```java
+    /**
+     * 递归实现合并两个排序的链表
+     * @param h1 排序链表1头结点
+     * @param h2 排序链表2头结点
+     * @return 合并后的排序链表头结点
+     */
+    public static ListNode mergeByRecursion(ListNode h1, ListNode h2) {
+        if(h1 == null) {  //第一个链表为空，返回第二个链表头结点
+            return h2;
+        }else if(h2 == null) {  //第二个链表为空，返回第二个链表头结点
+            return h1;
+        }
+
+        //记录两个链表中头部较小的结点
+        ListNode tmp = h1;
+        if(tmp.val < h2.val) {
+            //如果第一个链表的头结点小，就递归处理第一个链表的下一个结点和第二个链表的头结点
+            tmp.next = mergeByRecursion(h1.next, h2);
+        }else {
+            //如果第二个链表的头结点小，就递归处理第一个链表的头结点和第二个链表的头结点的下一个结点
+            tmp = h2;
+            tmp.next = mergeByRecursion(h1, h2.next);
+        }
+
+        return tmp;
+    }
+```
+
 ### 3.4 合并两个排序的链表
 
-`linklist/MergeSortedLinkedList` 参考：[https://github.com/LRH1993/android_interview/blob/master/algorithm/LeetCode/Linked-List/Merge-Two-Sorted-Lists.md](https://github.com/LRH1993/android_interview/blob/master/algorithm/LeetCode/Linked-List/Merge-Two-Sorted-Lists.md)
+`linklist/MergeSortedLinkedList` 参考：[Merge-Two-Sorted-Lists](https://github.com/LRH1993/android_interview/blob/master/algorithm/LeetCode/Linked-List/Merge-Two-Sorted-Lists.md)、 [14](https://github.com/LRH1993/android_interview/blob/master/algorithm/For-offer/14.md)
 
 ①题目：
 
@@ -312,7 +343,7 @@ Example: Given 1->3->8->11->15->null, 2->null, return 1->2->3->8->11->15->null.
 
 ### 3.5 最近最少缓存策略
 
-`linklist/LRUCache` 参考：[https://github.com/LRH1993/android_interview/blob/master/algorithm/LeetCode/Linked-List/LRU-Cache.md](https://github.com/LRH1993/android_interview/blob/master/algorithm/LeetCode/Linked-List/LRU-Cache.md)
+`linklist/LRUCache` 参考：[LRU-Cache](https://github.com/LRH1993/android_interview/blob/master/algorithm/LeetCode/Linked-List/LRU-Cache.md)
 
 ①题目：
 
