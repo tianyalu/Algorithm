@@ -28,4 +28,22 @@ public class BinaryTreeUtils {
             printTreeInOrder(node.right);
         }
     }
+
+    public static void printTreeByDoubleLinkList(BinaryTreeNode node) {
+        BinaryTreeNode cur = node;
+        if(cur == null) {
+            return;
+        }
+        System.out.print(cur.value + " ");
+        while (cur.right != null) {
+            System.out.print(cur.right.value + " ");
+            cur = cur.right;
+        }
+        System.out.println();
+        while (cur != null) {
+            System.out.print(cur.value + " ");
+            cur = cur.left;
+        }
+        System.out.println();
+    }
 }
