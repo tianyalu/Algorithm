@@ -207,4 +207,6 @@ $$
 
 ## 4. [树相关算法](https://github.com/tianyalu/Algorithm/blob/master/for_offer_readme/tree.md)
 
+## 5. [动态规划](https://github.com/tianyalu/Algorithm/blob/master/for_offer_readme/dynamicprograming.md)
+
 ## 7. [其它](https://github.com/tianyalu/Algorithm/blob/master/for_offer_readme/other.md)
